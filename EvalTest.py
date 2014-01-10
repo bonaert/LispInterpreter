@@ -28,7 +28,7 @@ class EvalTest(unittest.TestCase):
         self.assert_eval_result_equal()
 
     def test_can_define_things(self):
-        self.parsed_code = ['define', 'x', 10]
+        self.parsed_code = ['define', 'x', 11]
         self.result = None
         self.assert_eval_result_equal()
 

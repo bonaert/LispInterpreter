@@ -1,11 +1,12 @@
 from Environment import Environment, make_default_environment
 
-default_env = make_default_environment(Environment())
 
+def eval(x, environment=None):
+    if environment is None:
+        environment = make_default_environment()
 
-def eval(x, environment=default_env):
     if isinstance(x, str):
-        return environment.get_correct_environment(x)[x]
+        return environment.get(x)
     elif not isinstance(x, list):
         return x
     elif x[0] == 'quote':
@@ -16,10 +17,10 @@ def eval(x, environment=default_env):
         return eval(if_body if eval(test, environment) else else_body, environment)
     elif x[0] == 'set!':
         (_, var, expr) = x
-        environment.get_correct_environment(var)[var] = eval(expr, environment)
+        environment.set(var, eval(expr, environment))
     elif x[0] == 'define':
         (_, var, expr) = x
-        environment[var] = eval(expr, environment)
+        environment.define(var, eval(expr, environment))
     elif x[0] == 'lambda':
         (_, vars, body) = x
         return lambda *args: eval(body, Environment(vars, args, environment))

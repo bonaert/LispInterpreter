@@ -49,19 +49,29 @@ class EvalTest(unittest.TestCase):
 
     def test_can_define_and_call_one_var_function(self):
         self.parsed_code = ['begin',
-            ['define', 'identity', ['lambda', ['x'], 'x']],
-            ['identity', 10]
+                            ['define', 'identity', ['lambda', ['x'], 'x']],
+                            ['identity', 10]
         ]
         self.result = 10
         self.assert_eval_result_equal()
 
     def test_can_define_and_call_two_var_function(self):
         self.parsed_code = ['begin',
-            ['define', 'mul', ['lambda', ['x', 'y'], [operator.mul, 'x', 'y']]],
-            ['mul', 10, 20]
+                            ['define', 'mul', ['lambda', ['x', 'y'], [operator.mul, 'x', 'y']]],
+                            ['mul', 10, 20]
         ]
         self.result = 200
         self.assert_eval_result_equal()
+
+    # todo: fix exception type (e.x instead of UnboundLocalError, throw a SyntaxError)
+
+    def test_empty_define_expr_raises_exception(self):
+        self.parsed_code = ['define']
+        self.assertRaises(ValueError, eval, self.parsed_code)
+
+    def test_empty_begin_expr_raises_exception(self):
+        self.parsed_code = ['begin']
+        self.assertRaises(UnboundLocalError, eval, self.parsed_code)
 
 
 if __name__ == '__main__':

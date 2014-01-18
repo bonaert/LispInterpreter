@@ -12,7 +12,7 @@ class Environment(object):
         elif self.higher_environment:
             return self.higher_environment.get(key)
         else:
-            raise Exception("Variable %s is not defined." % key)
+            raise UnboundLocalError("Variable %s is not defined." % key)
 
     def set(self, key, value):
         if key in self.dict:

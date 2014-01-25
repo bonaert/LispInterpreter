@@ -23,7 +23,7 @@ class InputPort(object):
         self.stream = stream
         self.line = ''
 
-    def read_char(self):
+    def read_line(self):
         try:
             return self.stream.readline()
         except:
@@ -33,7 +33,7 @@ class InputPort(object):
         """Return the next token, reading new text into line buffer if needed."""
         while True:
             if self.line == '':
-                self.line = self.read_char()
+                self.line = self.read_line()
 
             if self.line == '':
                 return eof_object

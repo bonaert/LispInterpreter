@@ -1,4 +1,5 @@
 from Environment import Environment, make_default_environment
+from Symbol import Symbol
 
 
 def eval(x, environment=None):
@@ -33,5 +34,3 @@ def eval(x, environment=None):
         args = [eval(expr, environment) for expr in x[1:]]
         return function(*args)
 
-
-Symbol = str

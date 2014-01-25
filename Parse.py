@@ -1,9 +1,11 @@
+import re
 import Symbol
+from Symbol import eof_object
 
 
 def read(x):
     """ Read, tokenize and parse a Lisp expression"""
-    input_port = Symbol.InputPort(x)
+    input_port = InputPort(x)
     return parse_tokens(input_port)
 
 
@@ -68,3 +70,32 @@ def atom(token):
                 return complex(token.replace('i', 'j', 1))
             except ValueError:
                 return Symbol.make_symbol(token)
+
+
+class InputPort(object):
+    """An input port. Retains a line of chars."""
+    tokenizer = r'''\s*(,@|[('`,)]|"(?:[\\].|[^\\"])*"|;.*|[^\s('"`,;)]*)(.*)'''
+    matcher = re.compile(tokenizer)
+
+    def __init__(self, stream):
+        self.stream = stream
+        self.line = ''
+
+    def read_line(self):
+        try:
+            return self.stream.readline()
+        except Exception as e:
+            return self.stream
+
+    def read_token(self):
+        """Return the next token, reading new text into line buffer if needed."""
+        while True:
+            if self.line == '':
+                self.line = self.read_line()
+
+            if self.line == '':
+                return eof_object
+
+            token, self.line = self.matcher.match(self.line).groups()
+            if token != '' and not token.startswith(';'):
+                return token

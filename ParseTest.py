@@ -37,6 +37,11 @@ class ParseTest(unittest.TestCase):
         result = ['if', False, 0, ['if', True, 1, 2]]
         self.assertListEqual(parse(code), result)
 
+    def test_can_parse_string_literals(self):
+        code = '(if #f "a" (if #t "" "abc123éíóú"))'
+        result = ['if', False, "a", ['if', True, "", "abc123éíóú"]]
+        self.assertListEqual(parse(code), result)
+
 
 if __name__ == '__main__':
     unittest.main()

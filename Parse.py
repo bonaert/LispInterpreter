@@ -38,7 +38,10 @@ def parse_expression(tokens):
 
 def atom(token):
     if token == '#t': return True
-    if token == '#f': return False
+    elif token == '#f':
+        return False
+    elif token[0] == '"':
+        return token[1:-1]
     try:
         return int(token)
     except ValueError:

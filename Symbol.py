@@ -13,5 +13,6 @@ _quote, _if, _set, _define, _lambda, _begin, _definemacro, = map(make_symbol,
                                                                  "quote   if   set!  define   lambda   begin   define-macro".split())
 
 _quasiquote, _unquote, _unquotesplicing = map(make_symbol, "quasiquote   unquote   unquote-splicing".split())
+quotes = {"'": _quote, "`": _quasiquote, ",": _unquote, ",@": _unquotesplicing}
 
 

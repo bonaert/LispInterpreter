@@ -1,6 +1,6 @@
 import re
 import Symbol
-from Symbol import eof_object
+from Symbol import eof_object, quotes
 
 
 def read(x):
@@ -36,6 +36,8 @@ def parse_token(token, input_port):
         raise Exception('Unexpected )')
     elif token == Symbol.eof_object:
         raise Exception('Unexpected EOF in list.')
+    elif token in quotes:
+        return [quotes[token], parse_tokens(input_port)]
     else:
         return atom(token)
 

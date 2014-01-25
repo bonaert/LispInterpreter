@@ -5,7 +5,7 @@ def eval(x, environment=None):
     if environment is None:
         environment = make_default_environment()
 
-    if isinstance(x, str):
+    if isinstance(x, Symbol):
         return environment.get(x)
     elif not isinstance(x, list):
         return x
@@ -32,3 +32,6 @@ def eval(x, environment=None):
         function = eval(x[0], environment)
         args = [eval(expr, environment) for expr in x[1:]]
         return function(*args)
+
+
+Symbol = str

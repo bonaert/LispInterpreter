@@ -1,4 +1,4 @@
-Symbol = str
+import Symbol
 
 
 def parse(x):
@@ -22,6 +22,8 @@ def parse_tokens(tokens):
         return parse_expression(tokens)
     elif token == ')':
         raise Exception('Unexpected )')
+    elif token == Symbol.eof_object:
+        raise Exception('Unexpected EOF in list.')
     else:
         return atom(token)
 
@@ -53,4 +55,4 @@ def atom(token):
             try:
                 return complex(token.replace('i', 'j', 1))
             except ValueError:
-                return Symbol(token)
+                return Symbol.make_symbol(token)

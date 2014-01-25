@@ -1,9 +1,14 @@
 import Symbol
 
 
-def parse(x):
-    """ Tokenize and parse a Lisp expression"""
+def read(x):
+    """ Read, tokenize and parse a Lisp expression"""
     input_port = Symbol.InputPort(x)
+    return parse_tokens(input_port)
+
+
+def parse(input_port):
+    """ Tokenize and parse a Lisp expression"""
     return parse_tokens(input_port)
 
 

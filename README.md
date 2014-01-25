@@ -1,4 +1,4 @@
-ListInterpreter
+LispInterpreter
 ===============
 
-A simple List Interpreter, written for the pythonpracticeprojects.org challenge eavily inspired by the Peter Norvig's beautifull [interpreter](http://norvig.com/lispy.html).
+A simple Lisp Interpreter, written for the pythonpracticeprojects.org challenge heavily inspired by the Peter Norvig's beautifull [interpreter](http://norvig.com/lispy.html).

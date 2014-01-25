@@ -3,8 +3,8 @@ import Symbol
 
 def parse(x):
     """ Tokenize and parse a Lisp expression"""
-    tokens = tokenize(x)
-    return parse_tokens(tokens)
+    input_port = Symbol.InputPort(x)
+    return parse_tokens(input_port)
 
 
 def tokenize(x):
@@ -12,14 +12,19 @@ def tokenize(x):
     return x.replace('(', ' ( ').replace(')', ' ) ').split()
 
 
-def parse_tokens(tokens):
-    """ Parses the tokens and converts them into a Python representation. """
-    if len(tokens) == 0:
-        raise Exception('Reached end of file unexpectedly.')
-    token = tokens.pop(0)
+def parse_tokens(input_port):
+    """ Parses the tokens from an input port and converts them into a Python representation. """
+    first_token = input_port.read_token()
 
+    if first_token == Symbol.eof_object:
+        return Symbol.eof_object
+    return parse_token(first_token, input_port)
+
+
+def parse_token(token, input_port):
+    """ Parses the tokens and converts them into a Python representation. """
     if token == '(':
-        return parse_expression(tokens)
+        return parse_expression(token, input_port)
     elif token == ')':
         raise Exception('Unexpected )')
     elif token == Symbol.eof_object:
@@ -28,14 +33,16 @@ def parse_tokens(tokens):
         return atom(token)
 
 
-def parse_expression(tokens):
+def parse_expression(token, input_port):
+    """ Parse a Lisp expression into its corresponding Python representation"""
     parsed_expr = []
-    while tokens[0] != ')':
-        parsed_expr.append(parse_tokens(tokens))
+    while True:
+        token = input_port.read_token()
 
-    tokens.pop(0) # remove the remaining ')'
-
-    return parsed_expr
+        if token == ')':
+            return parsed_expr
+        else:
+            parsed_expr.append(parse_token(token, input_port))
 
 
 def atom(token):

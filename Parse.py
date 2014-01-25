@@ -37,15 +37,20 @@ def parse_expression(tokens):
 
 
 def atom(token):
-    if token == '#t': return True
+    if token == '#t':
+        return True
     elif token == '#f':
         return False
     elif token[0] == '"':
         return token[1:-1]
+
     try:
         return int(token)
     except ValueError:
         try:
             return float(token)
         except ValueError:
-            return Symbol(token)
+            try:
+                return complex(token.replace('i', 'j', 1))
+            except ValueError:
+                return Symbol(token)

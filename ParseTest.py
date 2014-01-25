@@ -42,6 +42,11 @@ class ParseTest(unittest.TestCase):
         result = ['if', False, "a", ['if', True, "", "abc123éíóú"]]
         self.assertListEqual(parse(code), result)
 
+    def test_can_parse_complex_number_literals(self):
+        code = '(if (+ 1 2j) 2.3 -4.3j )'
+        result = ['if', ['+', 1, 2j], 2.3, -4.3j]
+        self.assertListEqual(parse(code), result)
+
 
 if __name__ == '__main__':
     unittest.main()

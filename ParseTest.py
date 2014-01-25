@@ -32,6 +32,11 @@ class ParseTest(unittest.TestCase):
         result = [['lambda', 'x', ['+', 'x', 2]], 3]
         self.assertListEqual(parse(code), result)
 
+    def test_can_parse_true_and_false_literals(self):
+        code = '(if #f 0 (if #t 1 2))'
+        result = ['if', False, 0, ['if', True, 1, 2]]
+        self.assertListEqual(parse(code), result)
+
 
 if __name__ == '__main__':
     unittest.main()
